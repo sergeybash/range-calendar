@@ -1,0 +1,11 @@
+<resources>
+    <color name="calendarHeaderBackground">#7c7c7c</color>
+    <color name="calendarCellBorder">#5c5c5c</color>
+    <color name="calendarRegularText">#FFFFFF</color>
+    <color name="calendarBackground">#4c4c4c</color>
+    <color name="calendarShadowedText">#7c7c7c</color>
+    <color name="calendarSelectionBackground">#7c7c7c</color>
+    <color name="calendarSelectionText">#d7d7d7</color>
+    <color name="calendarSelectionEdgeBackground">#a4a4a4</color>
+    <color name="calendarSelectionEdgeText">#000000</color>
+</resources>

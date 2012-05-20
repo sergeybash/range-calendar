@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/calendarHeaderBackground"
+            >
+        <Button
+                android:id="@+id/prevMonth"
+                android:text="&lt;"
+                style="@style/monthButton"
+                />
+        <TextView
+                android:id="@+id/month"
+                style="@style/month"
+                />
+        <Button
+                android:id="@+id/nextMonth"
+                android:text="&gt;"
+                style="@style/monthButton"/>
+    </LinearLayout>
+    <TableLayout
+            android:id="@+id/calendar"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:stretchColumns="*"
+            android:background="@color/calendarCellBorder"
+            >
+
+        <TableRow android:layout_marginBottom="1dp" android:background="@color/calendarHeaderBackground">
+            <TextView style="@style/weekDay"/>
+            <TextView style="@style/weekDay"/>
+            <TextView style="@style/weekDay"/>
+            <TextView style="@style/weekDay"/>
+            <TextView style="@style/weekDay"/>
+            <TextView style="@style/weekDay"/>
+            <TextView style="@style/weekDay"/>
+        </TableRow>
+
+        <include layout="@layout/calendar_row"/>
+        <include layout="@layout/calendar_row"/>
+        <include layout="@layout/calendar_row"/>
+        <include layout="@layout/calendar_row"/>
+        <include layout="@layout/calendar_row"/>
+        <include layout="@layout/calendar_row"/>
+
+    </TableLayout>
+</LinearLayout>
