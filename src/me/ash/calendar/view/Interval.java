@@ -9,6 +9,7 @@ public class Interval {
     Day end = Day.none();
 
     public void set(Day newDay) {
+        if (newDay.isNone()) return;
         if (start.isNone()) {
             start = newDay;
         }

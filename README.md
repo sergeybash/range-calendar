@@ -5,4 +5,3 @@ range-calendar
 * Why months are named and week days are not
 * Didn't want to draw graphics
 * Now state is persistent
-* *TODO*: Make it look nice in landscape
