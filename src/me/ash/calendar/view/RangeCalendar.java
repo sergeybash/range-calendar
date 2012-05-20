@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
+import me.ash.calendar.MainActivity;
 import me.ash.calendar.R;
 import me.ash.calendar.R.color;
 import me.ash.calendar.R.layout;
@@ -22,6 +23,7 @@ public class RangeCalendar extends LinearLayout implements OnClickListener {
     private TextView monthText;
     private TableLayout calendarTable;
     private Month month;
+    private RangeListener rangeListener = RangeListener.EMPTY;
 
 
     public RangeCalendar(Context context) {
@@ -116,6 +118,9 @@ public class RangeCalendar extends LinearLayout implements OnClickListener {
     public void onClick(View view) {
         Day day = (Day) view.getTag();
         month.selectDay(day);
+        if (month.isRangeSelected()) {
+            rangeListener.onRangeSelected(month.getFirstSelectedDay(), month.getLastSelectedDay());
+        }
         drawCalendar();
     }
 
@@ -153,6 +158,14 @@ public class RangeCalendar extends LinearLayout implements OnClickListener {
         this.month.selectDay(firstDay);
         this.month.selectDay(lastDay);
         drawCalendar();
+    }
+
+    public void setRangeListener(RangeListener rangeListener) {
+        this.rangeListener = rangeListener;
+    }
+
+    public void removeRangeListener() {
+        this.rangeListener = RangeListener.EMPTY;
     }
 
     static class SavedState extends BaseSavedState {

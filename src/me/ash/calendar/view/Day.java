@@ -63,9 +63,7 @@ public class Day implements Comparable<Day>, Parcelable {
 
     @Override
     public String toString() {
-        return "Day{" +
-                "date=" + dayOfMonth +
-                '}';
+        return "(" + dayOfMonth + "." + monthInYear + "." + year + ")";
     }
 
     @Override

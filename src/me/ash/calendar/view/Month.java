@@ -105,6 +105,10 @@ public class Month {
         interval.set(day);
     }
 
+    public boolean isRangeSelected() {
+        return interval.isSelected();
+    }
+
     public void prevMonth() {
         calendar.add(MONTH, -1);
         fillField();

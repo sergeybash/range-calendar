@@ -39,4 +39,8 @@ public class Interval {
     public boolean isEdge(Day day) {
         return start.equals(day) || end.equals(day);
     }
+
+    public boolean isSelected() {
+        return !start.isNone() && !end.isNone();
+    }
 }
