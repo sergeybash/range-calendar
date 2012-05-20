@@ -1,9 +1,6 @@
 package me.ash.calendar.view;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import static java.util.Calendar.*;
@@ -12,6 +9,14 @@ import static java.util.Calendar.*;
  * @author Sergey Basheleyshvili
  */
 public class Month {
+
+    public Day getFirstSelectedDay() {
+        return interval.start;
+    }
+
+    public Day getLastSelectedDay() {
+        return interval.end;
+    }
 
     public enum DayKind {CurrentMonth, AnotherMonth, SelectedInner, SelectedEdge}
 
@@ -51,6 +56,10 @@ public class Month {
         fillField();
     }
 
+    public Month(int year, int month) {
+        this(new GregorianCalendar(year, month, 1));
+    }
+
     private void fillField() {
         Calendar workCalendar = (Calendar) this.calendar.clone();
         workCalendar.set(DAY_OF_MONTH, 1);
@@ -84,7 +93,7 @@ public class Month {
         }
 
 
-    public int getMonthIndex() {
+    public int getMonth() {
         return calendar.get(MONTH);
     }
 

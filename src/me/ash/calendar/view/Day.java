@@ -1,15 +1,16 @@
 package me.ash.calendar.view;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Calendar;
 
-import static java.util.Calendar.DAY_OF_MONTH;
-import static java.util.Calendar.MONTH;
-import static java.util.Calendar.YEAR;
+import static java.util.Calendar.*;
 
 /**
  * @author Sergey Basheleyshvili
  */
-public class Day implements Comparable<Day> {
+public class Day implements Comparable<Day>, Parcelable {
 
     public static final Day NONE = new Day();
 
@@ -87,5 +88,31 @@ public class Day implements Comparable<Day> {
         result = 31 * result + monthInYear;
         result = 31 * result + dayOfMonth;
         return result;
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(year);
+        out.writeInt(monthInYear);
+        out.writeInt(dayOfMonth);
+    }
+
+    public static final Parcelable.Creator<Day> CREATOR = new Parcelable.Creator<Day>() {
+        public Day createFromParcel(Parcel in) {
+            return new Day(in);
+        }
+
+        public Day[] newArray(int size) {
+            return new Day[size];
+        }
+    };
+
+    private Day(Parcel in) {
+        year = in.readInt();
+        monthInYear = in.readInt();
+        dayOfMonth = in.readInt();
     }
 }

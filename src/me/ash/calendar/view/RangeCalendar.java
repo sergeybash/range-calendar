@@ -1,7 +1,10 @@
 package me.ash.calendar.view;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,7 +16,7 @@ import me.ash.calendar.R.layout;
 /**
  * @author Sergey Basheleyshvili
  */
-public class MyCalendar extends LinearLayout implements OnClickListener {
+public class RangeCalendar extends LinearLayout implements OnClickListener {
 
 
     private TextView monthText;
@@ -21,12 +24,12 @@ public class MyCalendar extends LinearLayout implements OnClickListener {
     private Month month;
 
 
-    public MyCalendar(Context context) {
+    public RangeCalendar(Context context) {
         super(context);
         inflate();
     }
 
-    public MyCalendar(Context context, AttributeSet attrs) {
+    public RangeCalendar(Context context, AttributeSet attrs) {
         super(context, attrs);
         inflate();
     }
@@ -71,7 +74,7 @@ public class MyCalendar extends LinearLayout implements OnClickListener {
 
     private void drawCalendar() {
         for (int i = 0; i < calendarTable.getChildCount() - 1; i++) {
-            TableRow row = (TableRow) calendarTable.getChildAt(i+1);
+            TableRow row = (TableRow) calendarTable.getChildAt(i + 1);
             for (int j = 0; j < row.getChildCount(); j++) {
                 TextView dayView = (TextView) row.getChildAt(j);
                 Day day = month.getDay(i, j);
@@ -101,7 +104,7 @@ public class MyCalendar extends LinearLayout implements OnClickListener {
             }
         }
 
-        String monthName = getResources().getStringArray(R.array.monthNames)[month.getMonthIndex()];
+        String monthName = getResources().getStringArray(R.array.monthNames)[month.getMonth()];
         String year = String.valueOf(month.getYear());
         monthText.setText(monthName + " " + year);
     }
@@ -114,5 +117,80 @@ public class MyCalendar extends LinearLayout implements OnClickListener {
         Day day = (Day) view.getTag();
         month.selectDay(day);
         drawCalendar();
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        //begin boilerplate code that allows parent classes to save state
+        Parcelable superState = super.onSaveInstanceState();
+
+        SavedState ss = new SavedState(superState);
+        //end
+
+        ss.year = this.month.getYear();
+        ss.month = this.month.getMonth();
+        ss.firstDay = this.month.getFirstSelectedDay();
+        ss.lastDay = this.month.getLastSelectedDay();
+
+        return ss;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState ss = (SavedState) state;
+        super.onRestoreInstanceState(ss.getSuperState());
+
+        int year = ss.year;
+        int month = ss.month;
+        Day firstDay = ss.firstDay;
+        Day lastDay = ss.lastDay;
+        this.month = new Month(year, month);
+        this.month.selectDay(firstDay);
+        this.month.selectDay(lastDay);
+        drawCalendar();
+    }
+
+    static class SavedState extends BaseSavedState {
+        int year;
+        int month;
+        Day firstDay;
+        Day lastDay;
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            year = in.readInt();
+            month = in.readInt();
+            firstDay = in.readParcelable(Day.class.getClassLoader());
+            lastDay = in.readParcelable(Day.class.getClassLoader());
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeInt(this.year);
+            out.writeInt(this.month);
+            out.writeParcelable(firstDay, 0);
+            out.writeParcelable(lastDay, 0);
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
+
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
     }
 }
